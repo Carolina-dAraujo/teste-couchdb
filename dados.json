@@ -1,0 +1,114 @@
+{
+    "regioes": [
+        {
+            "regiaoID": "R1",
+            "nomeRegiao": "Vale S. Francisco",
+            "estadoRegiao": "Pernambuco"
+        },
+        {
+            "regiaoID": "R2",
+            "nomeRegiao": "Zona da Mata",
+            "estadoRegiao": "Pernambuco"
+        },
+        {
+            "regiaoID": "R3",
+            "nomeRegiao": "Garibaldi",
+            "estadoRegiao": "Rio Grande do Sul"
+        },
+        {
+            "regiaoID": "R4",
+            "nomeRegiao": "Gramado",
+            "estadoRegiao": "Rio Grande do Sul"
+        }
+    ],
+    "vinicolas": [
+        {
+            "vinicolaID": 1,
+            "nomeVinciola": "A1",
+            "foneVinicola": 1234,
+            "regiaoID": "R1"
+        },
+        {
+            "vinicolaID": 2,
+            "nomeVinciola": "A2",
+            "foneVinicola": 5234,
+            "regiaoID": "R1"
+        },
+        {
+            "vinicolaID": 3,
+            "nomeVinciola": "A3",
+            "foneVinicola": 6234,
+            "regiaoID": "R2"
+        },
+        {
+            "vinicolaID": 4,
+            "nomeVinciola": "A4",
+            "foneVinicola": 7234,
+            "regiaoID": "R2"
+        },
+        {
+            "vinicolaID": 5,
+            "nomeVinciola": "A5",
+            "foneVinicola": 8234,
+            "regiaoID": "R3"
+        }
+    ],
+    "vinhos": [
+        {
+            "vinhoID": 10,
+            "nomeVinho": "V1",
+            "tipoVinho": "tinto",
+            "precoVinho": 100.0,
+            "vinicolaID": 1
+        },
+        {
+            "vinhoID": 20,
+            "nomeVinho": "V2",
+            "tipoVinho": "branco",
+            "precoVinho": 200.0,
+            "vinicolaID": 1
+        },
+        {
+            "vinhoID": 30,
+            "nomeVinho": "V3",
+            "tipoVinho": "rose",
+            "precoVinho": 300.0,
+            "vinicolaID": 1
+        },
+        {
+            "vinhoID": 40,
+            "nomeVinho": "V4",
+            "tipoVinho": "rose",
+            "precoVinho": 350.0,
+            "vinicolaID": 2
+        },
+        {
+            "vinhoID": 50,
+            "nomeVinho": "V5",
+            "tipoVinho": "branco",
+            "precoVinho": 250.0,
+            "vinicolaID": 2
+        },
+        {
+            "vinhoID": 60,
+            "nomeVinho": "V6",
+            "tipoVinho": "tinto",
+            "precoVinho": 150.0,
+            "vinicolaID": 2
+        },
+        {
+            "vinhoID": 70,
+            "nomeVinho": "V7",
+            "tipoVinho": "tinto",
+            "precoVinho": 397.0,
+            "vinicolaID": 3
+        },
+        {
+            "vinhoID": 80,
+            "nomeVinho": "V8",
+            "tipoVinho": "branco",
+            "precoVinho": 333.0,
+            "vinicolaID": 3
+        }
+    ]
+}
