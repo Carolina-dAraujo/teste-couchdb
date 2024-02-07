@@ -1,0 +1,24 @@
+@protocolo = http 
+@ip = 127.0.0.1
+@porta = 5984
+@usuario = music_admin
+@senha = fib01123
+@couchdb = {{protocolo}}://{{usuario}}:{{senha}}@{{ip}}:{{porta}}
+@servidor = http://music_admin:fib01123@127.0.0.1:5984
+
+### testando a variavel de ambiente couchdb
+GET {{couchdb}}
+
+### criando banco de teste
+PUT {{couchdb}}/testes
+
+### consultando o banco criado
+GET {{couchdb}}/testes
+
+### excluir um db
+DELETE {{couchdb}}/testes
+
+### criando outro banco
+PUT {{couchdb}}/testes2
+###
+GET {{couchdb}}/testes2
