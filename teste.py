@@ -48,3 +48,10 @@ dados_json = {
 # Escrever os dados em um arquivo JSON
 with open('dados.json', 'w') as arquivo_json:
     json.dump(dados_json, arquivo_json, indent=4)
+
+#db.save(dados_json)
+    
+# Enviar cada linha como um documento individual para o banco de dados
+for tabela, linhas in dados_json.items():
+    for linha in linhas:
+        db.save(linha)
