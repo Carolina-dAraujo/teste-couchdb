@@ -5,8 +5,8 @@ def conectar():
     """
     Função para conectar ao servidor
     """
-    user = 'elias'
-    password = 'elias123'
+    user = 'music_admin'
+    password = 'fib01123'
     conn = couchdb.Server(f'http://{user}:{password}@localhost:5984')
     # Não aceita caracteres maiúsculos
     banco = 'esquema_vinicola'
@@ -38,19 +38,25 @@ def listar():
         if db.info()['doc_count'] > 0:
             print('Listando vinhos ...')
             print('---------------------')
-            for doc in db:
-                print(f"ID: {db[doc]['_id']}")
-                print(f"Rev: {db[doc]['_rev']}")
-                print(f"Nome do Vinho: {db[doc]['nomeVinho']}")
-                print(f"Tipo de Vinho: {db[doc]['tipoVinho']}")
-                print(f"Preço do Vinho: {db[doc]['precoVinho']}")
-                print('---------------------')
+            for doc_id in db:
+                doc = db[doc_id]
+                # Verificar se o documento tem o campo 'nomeVinho'
+                if 'nomeVinho' in doc:
+                    print(f"ID: {doc['_id']}")
+                    print(f"Rev: {doc['_rev']}")
+                    print(f"Nome do Vinho: {doc['nomeVinho']}")
+                    print(f"Tipo de Vinho: {doc['tipoVinho']}")
+                    print(f"Preço do Vinho: {doc['precoVinho']}")
+                    print(f"ID da Vinícola: {doc['vinicolaID']}")
+                    print('---------------------')
+
         else:
             print("Não existem vinhos a serem listados!")
             print('---------------------')
     else:
         print('Não foi possível conectar ao servidor.')
         print('---------------------')
+
 
 def inserir():
     """
@@ -65,8 +71,16 @@ def inserir():
         nome = input("Informe o nome do vinho: ")
         tipo = input("Informe o tipo do vinho: ")
         preco = float(input("Informe o preço do vinho: "))
+        vinhoID = int(input("Informe o vinhoID: "))
+        vinicolaID = int(input("Informe o ID da vinícola: "))
 
-        vinho = {'nomeVinho': nome, 'tipoVinho': tipo, 'precoVinho': preco}
+        # Verificar se o vinhoID já existe
+        if any(doc.get('vinhoID') == vinhoID for doc in db.view('_all_docs', include_docs=True)):
+            print(f"O vinhoID {vinhoID} já está em uso. Por favor, escolha outro.")
+            print('---------------------')
+            return
+
+        vinho = {'nomeVinho': nome, 'tipoVinho': tipo, 'precoVinho': preco, 'vinhoID': vinhoID, 'vinicolaID': vinicolaID}
         
         res = db.save(vinho)
 
@@ -79,6 +93,7 @@ def inserir():
     else:
         print(f'Não foi possível conectar ao servidor.')
         print('---------------------')
+
 
 def atualizar():
     """
@@ -95,25 +110,46 @@ def atualizar():
         
         try:
             doc = db[chave]
-            
-            nome = input('Informe o novo nome do vinho: ')
-            tipo = input('Informe o novo tipo do vinho: ')
-            preco = float(input('Informe o novo preço do vinho: '))
 
-            doc['nomeVinho'] = nome
-            doc['tipoVinho'] = tipo
-            doc['precoVinho'] = preco
+            # Pergunta ao usuário quais atributos ele deseja atualizar
+            print("Deixe em branco para manter o valor atual.")
+            nome = input('Informe o novo nome do vinho: ').strip()
+            id = input("Informe o novo ID do vinho: ").strip()
+            tipo = input('Informe o novo tipo do vinho: ').strip()
+            preco = input('Informe o novo preço do vinho: ').strip()
+            vinhoID = input("Informe o novo ID do vinho: ").strip()
+            vinicolaID = input("Informe o novo ID da vinícola: ").strip()
+
+            # Atualiza apenas os atributos que não estão vazios
+            if nome:
+                doc['nomeVinho'] = nome
+            if id:
+                doc['vinhoID'] = id
+                doc['_id'] = id  # Atualiza o ID do documento também
+            if tipo:
+                doc['tipoVinho'] = tipo
+            if preco:
+                doc['precoVinho'] = float(preco)
+            if vinhoID:
+                doc['vinhoID'] = int(vinhoID)
+            if vinicolaID:
+                doc['vinicolaID'] = int(vinicolaID)
+        
             # Atualiza o documento no banco de dados
             db[doc.id] = doc
 
-            print(f'O vinho {nome} foi atualizado com sucesso.')
+            print('O vinho foi atualizado com sucesso.')
             print('---------------------')
         except couchdb.http.ResourceNotFound as e:
             print(f'Não foi possível atualizar o vinho: {e}')
             print('---------------------')
+        except couchdb.http.ResourceConflict as e:
+            print('Erro ao atualizar o vinho: ID já existente, por favor, escolha outro.')
+            print('---------------------')
     else:
         print('Não foi possível conectar ao servidor.')
         print('---------------------')
+
 
 def deletar():
     """
@@ -171,3 +207,4 @@ def menu():
 
 if __name__ == "__main__":
     menu()
+
